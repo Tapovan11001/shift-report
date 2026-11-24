@@ -98,7 +98,7 @@ textarea { font: 13px/1.5 var(--mono); resize: vertical; }
 @media (max-width: 1080px) { .grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } .message { grid-column: 1 / -1; } }
 @media (max-width: 700px) { .grid { grid-template-columns: minmax(0, 1fr); } }
 
-/* ---- "Created by Aarav Makhija" watermark + plain-language explainer ---- */
+/* ---- "Created by Aarov Makhija" watermark + plain-language explainer ---- */
 .made-by {
   position: fixed; z-index: 50;
   right: calc(12px + env(safe-area-inset-right, 0px));
