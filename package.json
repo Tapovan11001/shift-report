@@ -1,0 +1,24 @@
+{
+  "name": "shift-report",
+  "version": "0.1.0",
+  "description": "Turns factory line counts into an end-of-shift WhatsApp summary in Hindi or English, with OEE and the biggest losses.",
+  "main": "src/agent.ts",
+  "scripts": {
+    "test": "node --test tests/*.test.ts",
+    "typecheck": "tsc",
+    "dev": "vite web",
+    "build": "vite build web --outDir ../dist --emptyOutDir",
+    "build:single": "SINGLE=1 vite build web --outDir ../dist-single --emptyOutDir"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^1.13.0"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.8",
+    "vite-plugin-singlefile": "^2.3.4"
+  },
+  "type": "module"
+}

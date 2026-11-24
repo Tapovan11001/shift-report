@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Shift Report</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Turns factory line counts into an end-of-shift WhatsApp summary in Hindi or English.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600&family=IBM+Plex+Mono:wght@500&family=Noto+Sans+Devanagari:wght@400;600&display=swap">
+<link rel="stylesheet" href="./style.css">
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="brand">
+      <h1>Shift Report</h1>
+      <p>Enter what each line made this shift. Get OEE, the biggest losses and a WhatsApp message for the plant group, in Hindi or English.</p>
+    </div>
+  </header>
+
+  <main class="grid">
+    <section class="input" aria-label="Shift data">
+      <div class="meta">
+        <label>Plant <input id="plant" type="text"></label>
+        <label>Date <input id="date" type="date"></label>
+        <label>Shift
+          <select id="shift"><option>A</option><option>B</option><option>C</option></select>
+        </label>
+        <label>Planned min <input id="planned" type="number" min="1"></label>
+        <label class="wide">Supervisor <input id="supervisor" type="text"></label>
+      </div>
+      <label class="label" for="csv">Line counts (CSV: line, product, target, produced, rejects, downtime)</label>
+      <textarea id="csv" rows="8" spellcheck="false"></textarea>
+      <p id="errors" class="errors" role="alert" hidden></p>
+      <p class="fine">Downtime goes as <code>Reason:minutes</code>, separated by <code>;</code>. Sample data is a fictional plant.</p>
+      <button id="reset" class="ghost" type="button">Load sample shift</button>
+    </section>
+
+    <section class="output" aria-label="Report">
+      <div class="kpis">
+        <div class="kpi"><span class="k">Plant OEE</span><span class="v" id="k-oee"></span></div>
+        <div class="kpi"><span class="k">Output vs target</span><span class="v" id="k-out"></span></div>
+        <div class="kpi"><span class="k">Rejects</span><span class="v" id="k-rej"></span></div>
+        <div class="kpi"><span class="k">Downtime</span><span class="v" id="k-dt"></span></div>
+      </div>
+      <div class="lines" id="lines"></div>
+      <p class="fine">OEE = availability (time running) × performance (speed while running) × quality (good pieces). Red flags: under 85% of target, over 3% rejects, over 30 min down.</p>
+    </section>
+
+    <section class="message" aria-label="WhatsApp message">
+      <div class="msg-head">
+        <h2>Message for the group</h2>
+        <div class="seg-group" role="radiogroup" aria-label="Language">
+          <button id="lang-hi" class="seg on" role="radio" aria-checked="true">हिंदी</button>
+          <button id="lang-en" class="seg" role="radio" aria-checked="false">English</button>
+        </div>
+      </div>
+      <div class="bubble" id="bubble"></div>
+      <div class="msg-actions">
+        <button id="copy" class="primary" type="button">Copy message</button>
+        <span id="copy-status" class="fine" aria-live="polite"></span>
+      </div>
+      <details class="claude">
+        <summary>Rewrite with Claude, with action items for the next shift</summary>
+        <div class="claude-body">
+          <label for="api-key">Anthropic API key</label>
+          <input id="api-key" type="password" autocomplete="off" placeholder="sk-ant-..." spellcheck="false">
+          <button id="run" class="ghost" type="button">Write with Claude</button>
+          <p class="fine">Claude reads the same metrics through a tool, so every number matches. Your key stays in this tab and goes only to api.anthropic.com.</p>
+          <p id="run-status" class="fine" aria-live="polite"></p>
+        </div>
+      </details>
+    </section>
+  </main>
+
+  <section class="how" aria-label="How it works">
+    <h2>How it works</h2>
+    <p>At the end of every shift, a factory supervisor has to tell everyone how it went. Shift Report makes that a two-minute job. You type what each production line was supposed to make, what it actually made, how many pieces were rejected, and why it stopped (a breakdown, a changeover, no material). It works out each line's OEE, a standard score that combines time running, speed and quality, and flags the lines that fell short. Then it writes a WhatsApp message for the plant group, in Hindi or English, worst line first. Claude can rewrite it with action items for the next shift, using the same numbers.</p>
+  </section>
+
+  <footer class="foot">
+    <span>Works offline. Nothing you type leaves the page unless you use Claude.</span>
+    <a href="https://github.com/Tapovan11001/shift-report" target="_blank" rel="noopener">github.com/Tapovan11001/shift-report</a>
+  </footer>
+</div>
+<a class="made-by" href="https://github.com/Tapovan11001" target="_blank" rel="noopener">Created by Aarav Makhija</a>
+<script type="module" src="./main.ts"></script>
+</body>
+</html>
